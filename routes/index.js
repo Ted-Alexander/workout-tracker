@@ -1,13 +1,9 @@
-init();
+const Router = require('express').Router();
 
-async function init() {
-  if (location.search.split("=")[1] === undefined) {
-    const workout = await API.getLastWorkout();
-    if (workout) {
-      location.search = "?id=" + workout._id;
-    } else {
-      document.querySelector("#continue-btn").classList.add("d-none")
-    }
-  }
-}
+const apiRoutes = require('./api/api-routes.js');
+const homeRoutes = require('./home-routes.js');
 
+Router.use('/', homeRoutes);
+Router.use('/api', apiRoutes);
+
+module.exports = Router;
