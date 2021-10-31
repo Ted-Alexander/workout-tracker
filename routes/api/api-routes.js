@@ -3,7 +3,7 @@ const Workouts = require("../../models/workouts.js");
 
 
 
-router.post("/api/workouts", ({ body }, res) => {
+router.post("/", ({ body }, res) => {
     Workouts.create(body)
       .then(dbWorkouts => {
         res.json(dbWorkouts);
@@ -15,7 +15,7 @@ router.post("/api/workouts", ({ body }, res) => {
 
   router.put("/:id", (req, res) => {
     id = req.params.id
-    db.Workout.findOneAndUpdate({"_id": id}, {$push: {exercises: req.body} })
+    Workouts.findOneAndUpdate({"_id": id}, {$push: {exercises: req.body} })
     .then(result => {
       res.json(result);
       })
@@ -25,7 +25,7 @@ router.post("/api/workouts", ({ body }, res) => {
   })
 
   router.get("/", (req, res) => {
-    db.Workout.aggregate([
+    Workouts.aggregate([
       {
           $addFields:{
               totalDuration: {$sum: "$exercises.duration"}
@@ -41,7 +41,7 @@ router.post("/api/workouts", ({ body }, res) => {
   });
 
   router.get("/range", (req, res) => {
-    db.Workout.aggregate([
+    Workouts.aggregate([
       {
           $addFields:{
               totalDuration: {$sum: "$exercises.duration"}
